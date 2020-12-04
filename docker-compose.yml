@@ -1,0 +1,20 @@
+
+version: '3'
+
+services:
+
+  pg:
+    build: ./pg
+    container_name: pg
+    ports:
+      - "5432:5432"
+
+  node:
+    build: ./nodejs
+    container_name: node
+    ports:
+      - "3001:3001"
+    depends_on:
+      - pg
+
+

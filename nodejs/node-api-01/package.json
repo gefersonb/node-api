@@ -1,0 +1,26 @@
+{
+  "name": "node-api",
+  "version": "1.0.0",
+  "description": "DESAFIO TÉCNICO Desenvolvedor(a) Full Stack Pleno - Home Office - Geferson Buzzello",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "rest",
+    "api",
+    "sequelize",
+    "mysql"
+  ],
+  "author": "gefdev",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "pg": "^7.18.2",
+    "sequelize": "^5.21.2"
+  }
+}

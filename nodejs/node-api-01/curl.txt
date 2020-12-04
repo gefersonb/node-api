@@ -1,0 +1,30 @@
+
+
+
+curl -d "nome=ADMIN&email=admin@gmail.com&tipo=0" -H "Content-Type: application/x-www-form-urlencoded" -X POST "http://localhost:8080/api/usuarios"
+
+
+curl -d "descricao=TAREFA_01" -H "Content-Type: application/x-www-form-urlencoded" -X POST "http://localhost:8080/api/tarefas"
+curl -d "descricao=TAREFA_01" -H "Content-Type: application/x-www-form-urlencoded" -X GET "http://localhost:8080/api/tarefas"
+
+
+curl -d "descricao=TAREFA_01&usuario=999&code=888" -H "Content-Type: application/x-www-form-urlencoded" -X POST "http://localhost:8080/api/tarefas"
+
+
+
+curl --header "Content-Type: application/json" --request POST --data '{"descricao":"xyz","password":"xyz"}'  http://localhost:8080/api/tarefas
+curl --header "Content-Type: application/json" --request POST --data {"descricao":"xyz","password":"xyz"}  http://localhost:8080/api/tarefas
+curl --header "Content-Type: application/json" --request POST --data {\"descricao\":\"xyz\",\"password\":\"xyz\"}  http://localhost:8080/api/tarefas
+
+
+
+{"descricao":"xyz",
+"usuario":9999,
+"code": 8888,
+"data":{
+    "descricao":"TAREFA 02"
+},
+"auth":{
+    "usuario":7777
+}
+}
