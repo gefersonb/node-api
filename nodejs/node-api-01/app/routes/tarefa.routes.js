@@ -5,6 +5,8 @@ module.exports = app => {
 
   router.post("/", tarefas.create);
 
+  router.post("/indicadores", tarefas.indicadores);
+
   router.get("/", tarefas.findAll);
 
   router.put("/", tarefas.update);

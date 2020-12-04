@@ -91,7 +91,7 @@ exports.buscarTarefas = async (req) => {
 
   let tarefas = [];
 
-  await Tarefa.findAll({ where: condition , order: [['id_responsavel']], attributes: ['id', 'id_responsavel', 'descricao', 'inicio', 'fim', 'createdAt']})
+  await Tarefa.findAll({ where: condition , order: [['id_responsavel']], attributes: ['id', 'id_responsavel', 'descricao', 'inicio', 'fim', 'createdAt', 'status']})
     .then(data => {
       let r = -1;
       data.forEach((x) => {
@@ -102,7 +102,8 @@ exports.buscarTarefas = async (req) => {
           inicio: x.inicio,
           fim: x.fim,
           createdAt: x.createdAt,
-          nome: "*RESPONSAVEL"
+          nome: "",
+          status: x.status
         };
 
         tarefas.push(y);

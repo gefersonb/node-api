@@ -178,14 +178,6 @@ exports.findAllPublished = (req, res) => {
 exports.tarefas = (req, res) => {
   const descricao = req.query.descricao;
   var condition = descricao ? { descricao: { [Op.like]: `%${descricao}%` } } : null;
-/*
-result.forEach(
-  (user) => {
-    console.log(user.dataValues);
-  }
-);
-
-*/
   Tarefa.findAll({ where: condition })
     .then(data => {
       data.forEach((x) => {
@@ -210,7 +202,15 @@ async function asyncForEach(array, callback, callback2) {
   callback2();
 }
 
-
+novoItem = (r, n, t, i, f) => {
+  return {
+    id_responsavel: r,
+    nome: n,
+    tarefas: t,
+    iniciadas: i,
+    finalizadas: f
+  };
+}
 exports.indicadores = async (req, res) => {
   let tarefas = [];
   let tarefas2 = [];
@@ -233,6 +233,37 @@ exports.indicadores = async (req, res) => {
     });
     t.nome = user.nome;
     tarefas2.push(t);
-  }, () => res.send(tarefas2));
+  }, () => {
+    let resumo = [];
+    let r = -1;
+    let qTarefas = 0;
+    let qIniciadas = 0;
+    let qFinalizadas = 0;
+    tarefas2.forEach((t, i) => {
+      if (r != t.id_responsavel) {
+        if (r > 0){
+          let item = novoItem(r, n, qTarefas, qIniciadas, qFinalizadas);
+          resumo.push(item);
+        }
+        r = t.id_responsavel;
+        n = t.nome;
+        qTarefas = 0;
+        qIniciadas = 0;
+        qFinalizadas = 0;
+      }
+      qTarefas++;
+      if(t.status == 1)
+        qIniciadas++;
+      if(t.status == 2)
+        qFinalizadas++;
+    });
+    if (qTarefas > 0){
+      let item = novoItem(r, n, qTarefas, qIniciadas, qFinalizadas);
+      resumo.push(item);
+    }
+
+    res.send(resumo);
+  });
+
 
 };

@@ -1,11 +1,12 @@
 const db = require("../models");
 const Tarefa = db.tarefas;
 const Op = db.Sequelize.Op;
-const util = require("./utils");
+const Util = require("./utils");
+const Usuario = db.usuarios;
 
 exports.create = async (req, res) => {
 
-  let a = await util.isAuth(req);
+  let a = await Util.isAuth(req);
   if (a.erro > 0) {
     res.status(500).send(a);
     return;
@@ -19,7 +20,7 @@ exports.create = async (req, res) => {
     return;
   }
 
-  let r = await util.isResponsavel(dados.id_responsavel);
+  let r = await Util.isResponsavel(dados.id_responsavel);
   if (r.erro > 0) {
     res.status(500).send(r);
     return;
@@ -28,7 +29,7 @@ exports.create = async (req, res) => {
   const tarefa = {
     descricao: dados.descricao,
     id_responsavel: dados.id_responsavel,
-    status: dados.status,
+    status: dados.status ? dados.status : 0,
     inicio: dados.inicio,
     fim: dados.fim
   };
@@ -76,7 +77,7 @@ exports.findOne = (req, res) => {
 };
 
 exports.update = async (req, res) => {
-  let a = await isAuth(req);
+  let a = await Util.isAuth(req);
   if (a.erro > 0) {
     res.status(500).send(a);
     return;
@@ -115,7 +116,7 @@ exports.update = async (req, res) => {
 
 exports.delete = async (req, res) => {
 
-  let a = await isAuth(req);
+  let a = await Util.isAuth(req);
   if (a.erro > 0) {
     res.status(500).send(a);
     return;
@@ -179,4 +180,90 @@ exports.findAllPublished = (req, res) => {
           err.message || "Ocorreu um erro ao retornar os Usuários."
       });
     });
+};
+
+async function asyncForEach(array, callback, callback2) {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
+  }
+  callback2();
+}
+
+novoItem = (r, n, t, i, f) => {
+  return {
+    id_responsavel: r,
+    nome: n,
+    tarefas: t,
+    iniciadas: i,
+    finalizadas: f
+  };
+}
+exports.indicadores = async (req, res) => {
+
+  let a = await Util.isAuth(req);
+  if (a.erro > 0) {
+    res.status(500).send(a);
+    return;
+  }
+
+  if(a.usuario.tipo == 0) {
+    res.status(500).send({
+      message: "Operação não permitida para o usuário.",
+      erro: 10
+    });
+    return;
+  }
+  
+  let tarefas = [];
+  let tarefas2 = [];
+
+  await Util.buscarTarefas(req).then(t => tarefas = t);
+
+  asyncForEach(tarefas, async (t) => {
+
+    let user = {};
+    user.nome = "";
+    await Usuario.findByPk(t.id_responsavel).then(data=>{
+      if (data){
+        user = {
+          id: data.id,
+          tipo: data.tipo,
+          nome: data.nome,
+          email: data.email,
+        }
+      }
+    });
+    t.nome = user.nome;
+    tarefas2.push(t);
+  }, () => {
+    let resumo = [];
+    let r = -1;
+    let qTarefas = 0;
+    let qIniciadas = 0;
+    let qFinalizadas = 0;
+    tarefas2.forEach((t, i) => {
+      if (r != t.id_responsavel) {
+        if (r > 0){
+          let item = novoItem(r, n, qTarefas, qIniciadas, qFinalizadas);
+          resumo.push(item);
+        }
+        r = t.id_responsavel;
+        n = t.nome;
+        qTarefas = 0;
+        qIniciadas = 0;
+        qFinalizadas = 0;
+      }
+      qTarefas++;
+      if(t.status == 1)
+        qIniciadas++;
+      if(t.status == 2)
+        qFinalizadas++;
+    });
+    if (qTarefas > 0){
+      let item = novoItem(r, n, qTarefas, qIniciadas, qFinalizadas);
+      resumo.push(item);
+    }
+
+    res.send(resumo);
+  });
 };
