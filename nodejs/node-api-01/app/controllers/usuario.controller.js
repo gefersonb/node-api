@@ -2,43 +2,6 @@ const db = require("../models");
 const Usuario = db.usuarios;
 const Op = db.Sequelize.Op;
 
-isAuth = async (req) => {
-  let auth = req.body.auth;
-  if (!auth || !auth.usuario) {
-    return {
-      usuario: {},
-      message: "Usuário não autenticado.",
-      erro: 1
-    }
-  }
-
-  let user;
-  await Usuario.findByPk(auth.usuario).then(data=>{
-    if (data){
-      user = {
-        id: data.id,
-        tipo: data.tipo,
-        nome: data.nome,
-        email: data.email,
-      }
-    }
-  });
-
-  if (!user || !user.id || !user.nome) {
-    return {
-      usuario: {},
-      message: "Usuário inexistente.",
-      erro: 2
-    }
-  }
-
-  return {
-    usuario: user,
-    message: "Usuário autenticado.",
-    erro: 0
-  }
-}
-
 exports.create = (req, res) => {
   let dados = req.body.data;
 

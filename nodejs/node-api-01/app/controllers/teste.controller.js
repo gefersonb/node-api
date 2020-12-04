@@ -1,10 +1,10 @@
 const db = require("../models");
+const Util = require("./utils");
 const Tarefa = db.tarefas;
+const Usuario = db.usuarios;
 const Op = db.Sequelize.Op;
-const util = require("./utils");
 
 exports.create = async (req, res) => {
-
   let a = await util.isAuth(req);
   if (a.erro > 0) {
     res.status(500).send(a);
@@ -12,16 +12,10 @@ exports.create = async (req, res) => {
   }
 
   let dados = req.body.data;
-  if (!dados.descricao || !dados.id_responsavel) {
+  if (!dados.descricao) {
     res.status(400).send({
-      message: "Campos obrigatorios: descricao, id_responsavel."
+      message: "Descrição não pode ser null!"
     });
-    return;
-  }
-
-  let r = await util.isResponsavel(dados.id_responsavel);
-  if (r.erro > 0) {
-    res.status(500).send(r);
     return;
   }
 
@@ -179,4 +173,66 @@ exports.findAllPublished = (req, res) => {
           err.message || "Ocorreu um erro ao retornar os Usuários."
       });
     });
+};
+
+exports.tarefas = (req, res) => {
+  const descricao = req.query.descricao;
+  var condition = descricao ? { descricao: { [Op.like]: `%${descricao}%` } } : null;
+/*
+result.forEach(
+  (user) => {
+    console.log(user.dataValues);
+  }
+);
+
+*/
+  Tarefa.findAll({ where: condition })
+    .then(data => {
+      data.forEach((x) => {
+        console.log(x.descricao);
+      });
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Ocorreu um erro ao consultar Tarefas."
+      });
+    });
+};
+
+
+
+async function asyncForEach(array, callback, callback2) {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
+  }
+  callback2();
+}
+
+
+exports.indicadores = async (req, res) => {
+  let tarefas = [];
+  let tarefas2 = [];
+
+  await Util.buscarTarefas(req).then(t => tarefas = t);
+
+  asyncForEach(tarefas, async (t) => {
+
+    let user = {};
+    user.nome = "";
+    await Usuario.findByPk(t.id_responsavel).then(data=>{
+      if (data){
+        user = {
+          id: data.id,
+          tipo: data.tipo,
+          nome: data.nome,
+          email: data.email,
+        }
+      }
+    });
+    t.nome = user.nome;
+    tarefas2.push(t);
+  }, () => res.send(tarefas2));
+
 };
