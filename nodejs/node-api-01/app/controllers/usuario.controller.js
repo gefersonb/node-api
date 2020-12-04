@@ -39,9 +39,7 @@ isAuth = async (req) => {
   }
 }
 
-// Create and Save a new Usuario
 exports.create = (req, res) => {
-  // Validate request
   let dados = req.body.data;
 
   if (!dados || !dados.nome) {
@@ -65,21 +63,12 @@ exports.create = (req, res) => {
     return;
   }
 
-/*
-  res.status(400).send({
-    message: "Estamos em testes!"
-  });
-  return;
-  */
-
-  // Create a Usuario
   const usuario = {
     nome: dados.nome,
     email: dados.email,
     tipo: dados.tipo
   };
 
-  // Save Usuario in the database
   Usuario.create(usuario)
     .then(data => {
       res.send(data);
@@ -92,7 +81,6 @@ exports.create = (req, res) => {
     });
 };
 
-// Retrieve all Usuarios from the database.
 exports.findAll = (req, res) => {
   const nome = req.query.nome;
   var condition = nome ? { nome: { [Op.like]: `%${nome}%` } } : null;
@@ -109,7 +97,6 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Find a single Usuario with an id
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
@@ -124,7 +111,6 @@ exports.findOne = (req, res) => {
     });
 };
 
-// Update a Usuario by the id in the request
 exports.update = (req, res) => {
   const id = req.params.id;
 
@@ -149,7 +135,6 @@ exports.update = (req, res) => {
     });
 };
 
-// Delete a Usuario with the specified id in the request
 exports.delete = async (req, res) => {
   let a = await isAuth(req);
   if (a.erro > 0) {
@@ -164,14 +149,6 @@ exports.delete = async (req, res) => {
     });
     return;
   }
-/*
-  console.log(req.body);
-
-  res.status(400).send({
-    message: "Estamos em testes!"
-  });
-  return;
-*/
 
   const id = req.body.data.id;
 
@@ -196,7 +173,6 @@ exports.delete = async (req, res) => {
     });
 };
 
-// Delete all Usuarios from the database.
 exports.deleteAll = async (req, res) => {
 
   let a = await isAuth(req);
@@ -228,7 +204,6 @@ exports.deleteAll = async (req, res) => {
     });
 };
 
-// find all published Usuario
 exports.findAllPublished = (req, res) => {
   Usuario.findAll({ where: { published: true } })
     .then(data => {
