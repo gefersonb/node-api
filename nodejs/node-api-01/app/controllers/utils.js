@@ -71,8 +71,12 @@ exports.isResponsavel = async (idresp) => {
 
 
 exports.buscarTarefas = async (req) => {
-  console.log('BUSCANDO TAREFAS');
-  const descricao = req.body.query.descricao;
+  let descricao;
+  if (req.body.query && req.body.query.descricao)
+    descricao = req.body.query.descricao;
+
+
+  //const descricao = req.body.query.descricao;
   condition = {};
   condition.id_responsavel = {[Op.ne]: null};
   if (descricao)
@@ -123,7 +127,6 @@ exports.buscarTarefas = async (req) => {
 }
 
 exports.buscarResponsavel = async (t) => {
-  console.log('BUSCAR O RESP: ' + t.id_responsavel + t.nome);
 
   let user;
   await Usuario.findByPk(t.id_responsavel).then(data=>{
@@ -136,7 +139,6 @@ exports.buscarResponsavel = async (t) => {
       }
     }
   });
-  console.log('BUSCOU O RESP: ' + t.id_responsavel + user.nome);
   t.nome = user.nome;
   return t;
 
