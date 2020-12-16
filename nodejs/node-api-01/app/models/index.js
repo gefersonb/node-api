@@ -23,4 +23,6 @@ db.usuarios = require("./usuario.model.js")(sequelize, Sequelize);
 
 db.tarefas = require("./tarefa.model.js")(sequelize, Sequelize);
 
+db.observs = require("./observ.model.js")(sequelize, Sequelize);
+
 module.exports = db;

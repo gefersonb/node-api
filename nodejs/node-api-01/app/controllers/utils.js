@@ -143,3 +143,20 @@ exports.buscarResponsavel = async (t) => {
   return t;
 
 }
+
+exports.getTarefa = async id => {
+  //https://flaviocopes.com/javascript-promises/
+  console.log(id);
+  return new Promise(function(resolve, reject) {
+    Tarefa.findByPk(id)
+      .then(data => {
+        if (data)
+          resolve('Tarefa encontrada.');
+        else
+          reject("Tarefa nao encontrada com id=" + id);
+      })
+      .catch(err => {
+        reject("Erro ao consultar Tarefa com id=" + id);
+      });
+  });
+}
