@@ -1,0 +1,85 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <br/>
+      <a class="navbar-brand" href="#"></a>
+
+      <button
+        class="btn btn-primary btn-margin"
+        ui-sref="home">
+          Home
+      </button>
+
+      <button
+        class="btn btn-primary btn-margin"
+        ui-sref="lista-pessoas">
+          Pessoas
+      </button>
+
+      <button
+        class="btn btn-primary btn-margin"
+        ui-sref="lista-analise">
+          Listagem de Análise
+      </button>
+
+      <button
+        id="qsLoginBtn"
+        class="btn btn-primary btn-margin"
+        ng-if="!vm.auth.isAuthenticated()"
+        ng-click="vm.auth.login()">
+          Log In
+      </button>
+
+      <button
+        id="qsLogoutBtn"
+        class="btn btn-primary btn-margin"
+        ng-if="vm.auth.isAuthenticated()"
+        ng-click="vm.auth.logout()">
+          Log Out
+      </button>
+
+      <button
+        id="qsLoginTec"
+        class="btn btn-primary btn-margin"
+        ng-if="!vm.auth.isTecAuthenticated()"
+        ng-click="vm.auth.loginTecnico()">
+          Log In Técnico
+      </button>
+
+    </div>
+    <div id="idUser" style="text-align:right">
+      <h4 >Usuário: {{vm.navbar.usuario}}</h4>
+
+    </div>
+
+  </div>
+
+</nav>
+
+
+
+
+
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <br/>
+      <a class="navbar-brand" href="#"></a>
+
+
+      <button
+        class="btn btn-primary btn-margin"
+        ui-sref="lista-tarefa">
+          Tarefas
+      </button>
+
+    </div>
+
+  </div>
+
+</nav>
+
+<div id="idUser" style="text-align:center">
+<img ng-if="vm.navbar.loading" src="assets/progress.gif" alt="loading" width="150" height="40">
+</div>

@@ -1,0 +1,58 @@
+<h4 ng-if="spp.auth.isAuthenticated()">
+
+	<div ng-if="spp.listIndex == 1">
+
+		<div class="container">
+			<div class="text-center">
+				<h4>{{ spp.title }}</h4>
+			</div>
+
+			<div ng-show="spp.erro" class="jumbotron text-center">
+				{{ spp.erro }}
+			</div>
+
+			<div class="table-responsive jumbotron">
+				<table data-st-table="spp.analises"
+					id="ConsultaPessoa"
+					class="table table-hover table-bordered table-striped table-condensed export-table">
+					<thead>
+						<tr>
+							<th class="text-left">NOME</th>
+							<th class="text-left">IDADE</th>
+							<th class="text-left">SEXO</th>
+							<th class="text-left">ESTADO CIVIL</th>
+							<th class="text-left">ESTADO</th>
+							<th class="text-left">DEPENDENTES</th>
+							<th class="text-left">RENDA R$</th>
+							<th class="text-left">RESULTADO ANÁLISE</th>
+							<th class="text-left">LIMITE</th>
+						</tr>
+					</thead>
+					<tbody data-ng-show="!spp.isLoading">
+						<tr data-ng-repeat="analise in spp.analises track by $index">
+							<td>{{analise.nome}}</td>
+							<td>{{analise.idade}}</td>
+							<td>{{analise.sexo}}</td>
+							<td>{{analise.ecivil}}</td>
+							<td>{{analise.uf}}</td>
+							<td>{{analise.dependentes}}</td>
+							<td>{{analise.renda}}</td>
+							<td>{{analise.resultado}}</td>
+							<td>{{analise.motivo}}</td>
+						</tr>
+				</table>
+			</div>
+
+		</div>
+	</div>
+
+	<!-- LISTAGEM 2  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////   -->
+	<div ng-if="spp.listIndex == 2">
+		
+	</div>
+
+
+</h4>
+<h4 ng-if="!spp.auth.isAuthenticated()">
+  Você não está logado! Por favor efetue <a ng-click="spp.auth.login()">Log In</a> para continuar.
+</h4>

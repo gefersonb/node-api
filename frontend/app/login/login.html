@@ -1,0 +1,29 @@
+<h4>
+
+	<div class="container">
+		<div class="text-center">
+			<h4>{{ vm.title }}</h4>
+		</div>
+
+		<div ng-show="vm.erro" class="jumbotron text-center">
+			{{ vm.erro }}
+		</div>
+
+		<div id="todo-form" class="row">
+			<div class="col-sm-8 col-sm-offset-2 text-right">
+				<form>
+					<div class="form-group jumbotron">
+						<input type="text" class="form-control input-lg" placeholder="Usuário" ng-model="vm.formData.usuario">
+						<input type="password" class="form-control input-lg" placeholder="Senha" ng-model="vm.formData.senha">
+						<input ng-if="vm.confirmar" type="password" class="form-control input-lg" placeholder="Confirmação de senha" ng-model="vm.formData.confirmaSenha">
+					</div>
+
+					<button type="submit" class="btn btn-primary btn-lg" ng-click="vm.login()">Log in</button>
+					<button type="submit" class="btn btn-primary btn-lg" ng-click="vm.criarNovo()">{{vm.action}}</button>
+				</form>
+			</div>
+		</div>
+
+	</div>
+
+	</h4>

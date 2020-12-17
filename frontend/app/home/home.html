@@ -1,0 +1,36 @@
+
+<h4>
+  <br />Desafio técnico CalCard / Especificações técnicas.
+  <br /></h4><h2>Backend</h2><h4>
+  <br />Servidor de aplicação: JBoss/Wildfly 10.x
+
+  <br />Banco de dados: Postgres 12
+
+  <br />Linguagem: Java 8
+
+  <br />IDE: Red Hat CodeReady Studio 12.13.0.GA
+
+  <br /></h4><h2>Frontend</h2><h4>
+
+  <br />Linguagem: AngularJS e NodeJS
+
+  <br />Autenticação: Auth0
+
+  <br /></h4><h2>Sobre a demanda:</h2><h4>
+
+  <br />Foi desenvolvida uma API/CRUD/REST para a realização de avaliação de crédito de Pessoas conforme especificação <a href="https://github.com/calcardev/technical-evaluation">CALCARD</a>.
+  <br />
+  <br />O sistema possui autenticação via Auth0 por meio de usuários Google ou Github e também uma forma alternativa de autenticação chamada "Login Técnico". As listagens e Cadastros somente estão disponíveis após a realização da autenticação.
+  <br />
+  <br />A API/REST foi implemenada com Jackson Annotations (com.fasterxml.jackson.annotation.JsonProperty), sobre essa implementação uma Interface CustomValidator para realizar as validações com base nas restrições definidas nas Annotations.
+  <br />
+  <br />A arquitetura do Backend está sub-dividida em EJB´s para o DOMain, Service e Repository. A aplicação web REST faz uso de @Inject bem como entre os EJB's. Todos os EJB´s compoem um EAR para deploy no Wildfly 10.x.
+  <br />
+  <br />Foi gerado o DOCKER e publicado no AWS/EC2 por meio de DOCKER-MACHINE ficando disponível para teste ON-LINE no <a href="http://54.224.23.187:3000/">LINK</a>.
+  <br />
+  <br />Para acessar os fontes acesse <a href="https://github.com/gefersonb/calcardev">o git</a>
+  <br />
+  <br />Analista Responsável: Geferson Buzzello
+  <br />
+  <br />{{vm.position}}
+</h4>

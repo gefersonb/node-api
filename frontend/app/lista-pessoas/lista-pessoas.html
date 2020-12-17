@@ -1,0 +1,57 @@
+<h4 ng-if="spp.auth.isAuthenticated()">
+
+		<div class="container">
+			<div class="text-center">
+				<h4>{{ spp.title }}</h4>
+			</div>
+
+			<div ng-show="spp.erro" class="jumbotron text-center">
+				{{ spp.erro }}
+			</div>
+
+			<div class="table-responsive jumbotron">
+				<table data-st-table="spp.pessoas"
+					id="ConsultaPessoa"
+					class="table table-hover table-bordered table-striped table-condensed export-table">
+					<thead>
+						<tr>
+							<th class="text-left">Código</th>
+							<th class="text-left">Nome Completo</th>
+							<th class="text-left">CPF</th>
+<!--							<th class="text-left">Email</th>-->
+							<th class="text-left"></th>
+						</tr>
+					</thead>
+					<tbody data-ng-show="!spp.isLoading">
+						<tr data-ng-repeat="pessoa in spp.pessoas track by $index">
+							<td>{{pessoa.codigo}}</td>
+							<td>{{pessoa.nome}}</td>
+							<td>{{pessoa.cpf}}</td>
+<!--							<td>{{pessoa.email}}</td> -->
+
+							<td class="text-center">
+								<a href="" data-ng-click="spp.editarPessoa(pessoa)">Editar</a>
+								<a href="" data-ng-click="spp.avaliacaoCredito(pessoa)">Análise de Crédito</a>
+								<a href="" data-ng-click="spp.listarAvaliacao(pessoa)">Listar Análise de Crédito</a>
+								<a  href=""
+										confirmed-click="spp.delete(pessoa)" ng-confirm-click="Você tem certeza que deseja excluir a Pessoa?"
+										title="Tem certeza?"
+										placement="left"
+									data-toggle="modal" data-target="#deleteModal" data-ng-click="">
+									Excluir
+								</a>
+							</td>
+						</tr>
+				</table>
+			</div>
+
+			<div class="text-right">
+				<button type="submit" class="btn btn-primary btn-lg" ng-click="spp.novoCadastro()">Novo</button>
+			</div>
+
+		</div>
+
+</h4>
+<h4 ng-if="!spp.auth.isAuthenticated()">
+  Você não está logado! Por favor efetue <a ng-click="spp.auth.login()">Log In</a> para continuar.
+</h4>

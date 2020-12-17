@@ -1,0 +1,90 @@
+<h4 ng-if="spp.auth.isAuthenticated()">
+
+	<div class="container">
+		<div class="text-center">
+			<h4>{{ spp.title }}</h4>
+		</div>
+
+		<div ng-show="spp.erro" class="jumbotron text-center">
+			{{ spp.erro }}
+		</div>
+
+		<div id="todo-form" class="row">
+			<div class="col-sm-8 col-sm-offset-2 text-right">
+				<form>
+					<div class="form-group jumbotron">
+						<input type="text" class="form-control input-lg" placeholder="Código" ng-model="spp.formData.codigo" readonly>
+						<input type="text" class="form-control input-lg" placeholder="Nome" ng-model="spp.formData.nome" style="text-transform:uppercase" maxlength="75" ng-readonly="spp.isAvaliarCredito()">
+						<input type="text" class="form-control input-lg" placeholder="CPF" ng-cpf ng-model="spp.formData.cpf" ng-readonly="spp.isAvaliarCredito()">
+						<input type="text" class="form-control input-lg" placeholder="Data nascimento" ng-model="spp.formData.nasc" date-field ng-readonly="spp.isAvaliarCredito()">
+
+
+						<select class="form-control input-lg" ng-model="spp.formData.sexo" ng-disabled="spp.isAvaliarCredito()">
+						    <option value="?">Selecione o sexo</option>
+						    <option value="M">Masculino</option>
+						    <option value="F">Feminino</option>
+						</select>
+
+						<select class="form-control input-lg" ng-model="spp.formData.ecivil" ng-disabled="spp.isAvaliarCredito()">
+						    <option value="?">Selecione o estado civil</option>
+						    <option value="S">Solteiro</option>
+								<option value="C">Casado</option>
+								<option value="D">Divorciado</option>
+								<option value="V">Viúvo</option>
+						</select>
+
+						<select class="form-control input-lg" ng-model="spp.formData.uf" ng-disabled="spp.isAvaliarCredito()">
+						    <option value="?">UF</option>
+								<option value="AC">Acre</option>
+								<option value="AL">Alagoas</option>
+								<option value="AP">Amapá</option>
+								<option value="AM">Amazonas</option>
+								<option value="BA">Bahia</option>
+								<option value="CE">Ceará</option>
+								<option value="DF">Distrito Federal</option>
+								<option value="ES">Espírito Santo</option>
+								<option value="GO">Goiás</option>
+								<option value="MA">Maranhão</option>
+								<option value="MT">Mato Grosso</option>
+								<option value="MS">Mato Grosso do Sul</option>
+								<option value="MG">Minas Gerais</option>
+								<option value="PA">Pará</option>
+								<option value="PB">Paraíba</option>
+								<option value="PR">Paraná</option>
+								<option value="PE">Pernambuco</option>
+								<option value="PI">Piauí</option>
+								<option value="RJ">Rio de Janeiro</option>
+								<option value="RN">Rio Grande do Norte</option>
+								<option value="RS">Rio Grande do Sul</option>
+								<option value="RO">Rondônia</option>
+								<option value="RR">Roraima</option>
+								<option value="SC">Santa Catarina</option>
+								<option value="SP">São Paulo</option>
+								<option value="SE">Sergipe</option>
+								<option value="TO">Tocantins</option>
+						</select>
+
+						<input type="text" class="form-control input-lg" placeholder="Número de Dependentes" ng-model="spp.formData.dependentes" ng-readonly="spp.isAvaliarCredito()">
+						<input type="text" class="form-control input-lg" placeholder="Renda" ng-model="spp.formData.renda" ng-readonly="spp.isAvaliarCredito()">
+
+
+						<!--
+						<input type="text" class="form-control input-lg" placeholder="E-mail" ng-model="spp.formData.email">
+						<input type="text" class="form-control input-lg" placeholder="Naturalidade" ng-model="spp.formData.naturalidade">
+						<input type="text" class="form-control input-lg" placeholder="Nacionalidade" ng-model="spp.formData.nacionalidade">
+						-->
+
+					</div>
+
+					<button type="submit" class="btn btn-primary btn-lg" ng-click="spp.avaliacaoCredito()" ng-if="spp.isAvaliarCredito()">Avaliação de Crédito</button>
+					<button type="submit" class="btn btn-primary btn-lg" ng-click="spp.cadastrarPessoa()" ng-if="!spp.isAvaliarCredito()">{{spp.action}}</button>
+				</form>
+			</div>
+		</div>
+
+	</div>
+
+	</h4>
+	<h4 ng-if="!spp.auth.isAuthenticated()">
+	  Você não está logado! Por favor efetue <a ng-click="spp.auth.login()">Log In</a> para continuar.
+	</h4>
