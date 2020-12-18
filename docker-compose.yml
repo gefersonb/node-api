@@ -17,4 +17,13 @@ services:
     depends_on:
       - pg
 
+  front:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - pg
+
+
 
